@@ -1,0 +1,301 @@
+version: 2
+
+models:
+  - name: stg_F1__circuit
+    description: Contains information about the circuits.
+    columns:
+      - name: circuit_id
+        description: Unique identifier for the circuit
+      - name: circuit_ref
+        description: Unique reference for the circuit
+      - name: name
+        description: Circuit's name
+      - name: location
+        description: Circuit's city or region (e.g. Le Mans, Florida)
+      - name: country
+        description: Circuit's country
+      - name: latitude
+        description: Circuit's latitude
+      - name: longitude
+        description: Circuit's longitude
+      - name: altitude
+        description: Circuit's altitude
+
+  - name: stg_F1__constructor_results
+    description: Contains the results of the constructors in each race.
+    columns:
+      - name: constructor_result_sk
+        description: Surrogate key for the constructor result (combining race_id and constructor_id)
+      - name: race_id
+        description: Unique identifier for the race
+      - name: constructor_id
+        description: Unique identifier for the constructor
+      - name: points_earned
+        description: Points scored by the constructor
+      - name: disqualified
+        description: Indicates whether the constructor was disqualified in the race. The disqualification was a result of the "Spygate" scandal.
+
+  - name: stg_F1__constructors
+    description: Contains information about the constructors.
+    columns:
+      - name: constructor_id
+        description: Unique identifier for the constructor
+      - name: constructor_ref
+        description: Unique reference for the constructor
+      - name: name
+        description: Constructor's name
+      - name: nationality
+        description: Constructor's nationality
+
+  - name: stg_F1__drivers
+    description: Contains information about the drivers.
+    columns:
+      - name: driver_id
+        description: Unique identifier for the driver
+      - name: driver_ref
+        description: Unique reference for the driver
+      - name: number
+        description: Driver's permanent number (optional)
+      - name: code
+        description: Driver's 3-letter code (optional)
+      - name: first_name
+        description: Driver's first name
+      - name: last_name
+        description: Driver's last name
+      - name: date_of_birth
+        description: Driver's date of birth
+      - name: nationality
+        description: Driver's nationality
+
+  - name: stg_F1__races
+    description: Contains information about the races.
+    columns:
+      - name: race_id
+        description: Unique identifier for the race
+      - name: year
+        description: Year of the race
+      - name: round
+        description: Race order number in the season given by the year column
+      - name: circuit_id
+        description: Unique identifier for the circuit where the race took place
+      - name: name
+        description: Name of the race (e.g. Australian Grand Prix, Monaco Grand Prix)
+      - name: race_date_time_utc
+        description: Date and time of the race in UTC
+      - name: free_practice_1_date_time_utc
+        description: Date and time of the first free practice session in UTC
+      - name: free_practice_2_date_time_utc
+        description: Date and time of the second free practice session in UTC
+      - name: free_practice_3_date_time_utc
+        description: Date and time of the third free practice session in UTC
+      - name: qualifying_date_time_utc
+        description: Date and time of the qualifying session in UTC
+      - name: sprint_date_time_utc
+        description: Date and time of the sprint race in UTC (null for races without a sprint)
+
+  - name: stg_F1__constructor_standings
+    description: Contains the standings of the constructors in each race.
+    columns:
+      - name: constructor_standing_sk
+        description: Surrogate key for the constructor standing (combining race_id and constructor_id)
+      - name: race_id
+        description: Unique identifier for the race
+      - name: constructor_id
+        description: Unique identifier for the constructor
+      - name: total_points_accumulated
+        description: Total points scored by the constructor (cumulative throughout the season).
+      - name: championship_position
+        description: Position of the constructor in the championship at the end of the given race.
+      - name: excluded
+        description: Indicates whether the constructor was excluded from the championship (Due to the "Spygate" scandal)
+      - name: total_wins_season
+        description: Total wins of the constructor at the end of the given race (cumulative throughout the season)
+
+  - name: stg_F1__driver_standings
+    description: Contains the standings of the drivers in each race.
+    columns:
+      - name: driver_standing_sk
+        description: Surrogate key for the driver standing (combining race_id and driver_id)
+      - name: race_id
+        description: Unique identifier for the race.
+      - name: driver_id
+        description: Unique identifier for the driver.
+      - name: total_points_accumulated
+        description: Points scored by the driver at the end of the given race (cumulative throughout the season).
+      - name: championship_position
+        description: Position of the driver in the generally classification at the end of the given race.
+      - name: disqualified
+        description: Indicates whether the driver was disqualified from the race (as text, D when disqualified).
+      - name: total_wins_season
+        description: Total wins of the driver at the end of the given race (cumulative throughout the season).
+
+  - name: stg_F1__lap_times
+    description: Contains the lap times of the drivers in each race.
+    columns:
+      - name: lap_time_sk
+        description: Surrogate key for the lap time (combining race_id, driver_id and lap number)
+      - name: race_id
+        description: Unique identifier for the race
+      - name: driver_id
+        description: Unique identifier for the driver
+      - name: lap_number
+        description: Lap number
+      - name: driver_position
+        description: Position of the driver at the end of the lap.
+      - name: lap_time
+        description: Lap time in the format "m:ss.sss" (minutes, seconds, milliseconds)
+      - name: lap_time_milliseconds
+        description: Lap time in milliseconds
+
+  - name: stg_F1__pit_stops
+    description: Contains the pit stops of the drivers in each race.
+    columns:
+      - name: race_id
+        description: Unique identifier for the race.
+      - name: driver_id
+        description: Unique identifier for the driver.
+      - name: stop_number
+        description: Pit stop number for the driver in the given race.
+      - name: lap_number
+        description: Lap number when the pit stop occurred.
+      - name: pit_stop_time
+        description: Time of day when the pit stop occurred in the format "hh:mm:ss" (hours, minutes, seconds) UTC.
+      - name: duration_milliseconds
+        description: Duration of the pit stop in milliseconds
+
+  - name: stg_F1__qualifying
+    description: Contains the qualifying results of the drivers in each race.
+    columns:
+      - name: qualify_sk
+        description: Surrogate key for the qualifying result (combining race_id and driver_id)
+      - name: race_id
+        description: Unique identifier for the race
+      - name: driver_id
+        description: Unique identifier for the driver
+      - name: constructor_id
+        description: Unique identifier for the constructor
+      - name: driver_number
+        description: Driver's number for the current season (null for 1961-1963)
+      - name: driving_position
+        description: Position of the driver at the end of the qualifying session
+      - name: q1_time
+        description: Time of the first qualifying session in the format "m:ss.sss" (minutes, seconds, milliseconds)
+      - name: q2_time
+        description: Time of the second qualifying session in the format "m:ss.sss" (minutes, seconds, milliseconds)
+      - name: q3_time
+        description: Time of the third qualifying session in the format "m:ss.sss" (minutes, seconds, milliseconds)
+
+  - name: stg_F1__results
+    description: Contains the results of the drivers in GP races.
+    columns:
+      - name: result_sk
+        description: Surrogate key for the result (combining race_id and driver_id)
+      - name: race_id
+        description: Unique identifier for the race
+      - name: driver_id
+        description: Unique identifier for the driver
+      - name: constructor_id
+        description: Unique identifier for the constructor
+      - name: driver_number
+        description: Driver's number for the current season (null for 1961-1963)
+      - name: starting_grid_position
+        description: Starting grid position of the driver.
+      - name: displayed_final_position
+        description: >
+          Official finishing position of the driver. 
+          Standard integer format. 
+          Contains NULL for drivers who did not finish (DNF) or were not classified, 
+          unless they completed >90% of the race distance (depending on the era).
+      - name: do_not_finish_reason
+        description: >
+          Provides context for NULL values in the 'position' column.
+          Common codes include:
+          - 'R': Retired (Mechanical failure, accident)
+          - 'D': Disqualified
+          - 'N': Not Classified
+          - 'W': Withdrawn
+          - 'F': Failed to qualify
+          - +90% Classified despite not finishing (90% rule).
+      - name: final_order
+        description: >
+          A calculated ranking (1 to N) that ensures every driver has a unique, non-null position.
+          Used for consistent sorting and visualizations. 
+          For non-finishers, the order is typically determined by the number of laps completed.- name: position
+      - name: points_earned
+        description: Points scored by the driver in the given race
+      - name: laps_completed
+        description: Number of laps completed by the driver in the given race
+      - name: race_time
+        description: Total race time for the driver in the format "h:mm:ss.sss" (hours, minutes, seconds, milliseconds) (null for non-finishers)
+      - name: race_time_milliseconds
+        description: Total race time for the driver in milliseconds (null for non-finishers)
+      - name: fastest_lap_number
+        description: Fastest lap number for the driver (null for non-participants)
+      - name: fastest_lap_rank
+        description: Rank of the driver's fastest lap in the given race
+      - name: fastest_lap_time
+        description: Time of the driver's fastest lap in the format "m:ss.sss" (minutes, seconds, milliseconds) (null for non-finishers)
+      - name: fastest_lap_speed_kph
+        description: Speed of the driver's fastest lap in km/h (null for non-finishers)
+      - name: status_id
+        description: Unique identifier for the status of the result (e.g. Finished, Disqualified, Accident, etc)
+
+  - name: stg_F1__sprint_results
+    description: Contains the results of the drivers in sprint races.
+    columns:
+      - name: sprint_result_sk
+        description: Surrogate key for the sprint result (combining race_id and driver_id)
+      - name: race_id
+        description: Unique identifier for the race
+      - name: driver_id
+        description: Unique identifier for the driver
+      - name: constructor_id
+        description: Unique identifier for the constructor
+      - name: driver_number
+        description: Driver's number for the current season (not null)
+      - name: starting_grid_position
+        description: Starting grid position of the driver (not null)
+      - name: displayed_final_position
+        description: >
+          Official finishing position of the driver. 
+          Standard integer format. 
+          Contains NULL for drivers who did not finish (DNF) or were not classified, 
+          unless they completed >90%
+      - name: do_not_finish_reason
+        description: >
+          Provides context for NULL values in the 'displayed_final_position' column.
+          Common codes include:
+          - 'R': Retired (Mechanical failure, accident)
+          - 'D': Disqualified
+          - 'N': Not Classified
+          - 'W': Withdrawn
+          - 'F': Failed to qualify
+          - '+90%': Classified despite not finishing (90% rule).
+      - name: final_order
+        description: >
+          A calculated ranking (1 to N) that ensures every driver has a unique, non-null position.
+          Used for consistent sorting and visualizations. 
+          For non-finishers, the order is typically determined by the number of laps completed.
+      - name: points_earned
+        description: Points scored by the driver in the given sprint race.
+      - name: laps_completed
+        description: Number of laps completed by the driver in the given sprint race.
+      - name: race_time
+        description: > 
+          Total sprint race time for the first driver in the format "h:mm:ss.sss" (hours, minutes, seconds, milliseconds)
+          for the other drivers it is an offset from the first driver's time in the format "+mm:ss.sss" and null for non-finishers
+      - name: race_time_milliseconds
+        description: total sprint race time for the driver in milliseconds (null for non-finishers)
+      - name: fastest_lap_number
+        description: Fastest lap number for the driver in the given sprint
+      - name: fastest_lap_time
+        description: Time of the driver's fastest lap in the format "m:ss.sss" (minutes, seconds, milliseconds) (null for non-finishers)
+      - name: status_id
+        description: Unique identifier for the status of the result (e.g. Finished, Disqualified, Accident, etc)
+
+  - name: stg_F1__status
+    columns:
+      - name: status_id
+        description: Unique identifier for the status of the result. 
+      - name: status
+        description: Description of the status (e.g. Finished, Disqualified, Accident, etc)

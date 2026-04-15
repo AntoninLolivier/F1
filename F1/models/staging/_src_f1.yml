@@ -1,0 +1,333 @@
+version: 2
+
+sources:
+  - name: F1
+    database: f1_raw
+    schema: public
+    tables:
+      - name: circuit
+        description: This table contains information about the circuits.
+        columns:
+          - name: circuit_id
+            description: unique identifier for the circuit
+          - name: circuit_ref
+            description: unique reference for the circuit
+          - name: name
+            description: circuit's name
+          - name: location
+            description: circuit's city or region (e.g. Le Mans, Florida)
+          - name: country
+            description: circuit's country
+          - name: lat
+            description: circuit's latitude
+          - name: lng
+            description: circuit's longitude
+          - name: alt
+            description: circuit's altitude
+          - name: url
+            description: URL to the circuit's page on wikipedia
+
+      - name: constructor_results
+        description: This table contains the results of the constructors in each race.
+        columns:
+          - name: constructor_results_id
+          - name: race_id
+            description: unique identifier for the race
+          - name: constructor_id
+            description: unique identifier for the constructor
+          - name: points
+            description: points scored by the constructor
+          - name: status
+            description: The value 'D' indicates the disqualification of the McLaren team in the 2007 season. The disqualification was a result of the "Spygate" scandal. Otherwise, the status field is null.
+
+      - name: constructors
+        description: This table contains information about the constructors.
+        columns:
+          - name: constructor_id
+            description: unique identifier for the constructor
+          - name: constructor_ref
+            description: unique reference for the constructor
+          - name: name
+            description: constructor's name
+          - name: nationality
+            description: constructor's nationality
+          - name: url
+            description: URL to the constructor's page on wikipedia
+
+      - name: drivers
+        description: This table contains information about the drivers.
+        columns:
+          - name: driver_id
+            description: unique identifier for the driver
+          - name: driver_ref
+            description: unique reference for the driver
+          - name: number
+            description: driver's permanent number (optional)
+          - name: code
+            description: driver's 3-letter code (optional)
+          - name: forename
+            description: driver's first name
+          - name: surname
+            description: driver's last name
+          - name: dob
+            description: driver's date of birth
+          - name: nationality
+            description: driver's nationality
+          - name: url
+            description: URL to the driver's page on wikipedia
+
+      - name: races
+        description: This table contains information about the races.
+        columns:
+          - name: race_id
+            description: unique identifier for the race
+          - name: year
+            description: year of the race
+          - name: round
+            description: race order number in the season given by the year column
+          - name: circuit_id
+            description: unique identifier for the circuit where the race took place
+          - name: name
+            description: name of the race (e.g. Australian Grand Prix, Monaco Grand Prix)
+          - name: date
+            description: date of the race
+          - name: time
+            description: UTC time of the race
+          - name: url
+            description: URL to the race page on wikipedia
+          - name: fp1_date
+            description: date of the first free practice session
+          - name: fp1_time
+            description: UTC time of the first free practice session
+          - name: fp2_date
+            description: date of the second free practice session
+          - name: fp2_time
+            description: UTC time of the second free practice session
+          - name: fp3_date
+            description: date of the third free practice session
+          - name: fp3_time
+            description: UTC time of the third free practice session
+          - name: quali_date
+            description: date of the qualifying session
+          - name: quali_time
+            description: UTC time of the qualifying session
+          - name: sprint_date
+            description: date of the sprint session
+          - name: sprint_time
+            description: UTC time of the sprint session
+
+      - name: seasons
+        description: This table contains information about the seasons.
+        columns:
+          - name: year
+            description: year of the season
+          - name: url
+            description: URL to the season page on wikipedia
+
+      - name: constructor_standings
+        description: This table contains the standings of the constructors in each race.
+        columns:
+          - name: constructor_standings_id
+            description: unique identifier for the constructor standing
+          - name: race_id
+            description: unique identifier for the race
+          - name: constructor_id
+            description: unique identifier for the constructor
+          - name: points
+            description: total points scoored by the constructor (cumulative throughout the season).
+          - name: position
+            description: position of the constructor in the championship at the end of the given race.
+          - name: position_text
+            description: position of the constructor in the championship at the end of the given race (as text, E when excluded)
+          - name: wins
+            description: total wiins of the constructor at the end of the given race (cumulative throughout the season)
+
+      - name: driver_standings
+        description: This table contains the standings of the drivers in each race.
+        columns:
+          - name: driver_standings_id
+            description: unique identifier for the driver standing
+          - name: race_id
+            description: unique identifier for the race.
+          - name: driver_id
+            description: unique identifier for the driver.
+          - name: points
+            description: points scored by the driver at the end of the given race (cumulative throughout the season).
+          - name: position
+            description: position of the driver in the generally classification at the end of the given race.
+          - name: position_text
+            description: position of the driver in the generally classification at the end of the given race (as text, D when disqualified).
+          - name: wins
+
+      - name: lap_times
+        description: This table contains the lap times of the drivers in each race.
+        columns:
+          - name: race_id
+            description: unique identifier for the race
+          - name: driver_id
+            description: unique identifier for the driver
+          - name: lap
+            description: lap number
+          - name: position
+            description: position of the driver at the end of the lap.
+          - name: time
+            description: lap time in the format "m:ss.sss" (minutes, seconds, milliseconds)
+          - name: milliseconds
+            description: lap time in milliseconds
+
+      - name: pit_stops
+        description: This table contains the pit stops of the drivers in each race.
+        columns:
+          - name: race_id
+            description: unique identifier for the race.
+          - name: driver_id
+            description: unique identifier for the driver.
+          - name: stop
+            description: pit stop number for the driver in the given race.
+          - name: lap
+            description: lap number when the pit stop occurred.
+          - name: time
+            description: time of day when the pit stop occurred in the format "hh:mm:ss" (hours, minutes, seconds) UTC.
+          - name: duration
+            description: duration of the pit stop in the format "ss.sss" (seconds, milliseconds)
+          - name: milliseconds
+            description: duration of the pit stop in milliseconds
+
+      - name: qualifying
+        description: This table contains the qualifying results of the drivers in each race.
+        columns:
+          - name: qualify_id
+            description: unique identifier for the qualifying result
+          - name: race_id
+            description: unique identifier
+          - name: driver_id
+            description: unique identifier for the driver
+          - name: constructor_id
+            description: unique identifier for the constructor
+          - name: number
+            description: driver's number for the current season (null for 1961-1963)
+          - name: position
+            description: position of the driver at the end of the qualifying session
+          - name: q1
+            description: time of the first qualifying session in the format "m:ss.sss" (minutes, seconds, milliseconds)
+          - name: q2
+            description: time of the second qualifying session in the format "m:ss.sss" (minutes, seconds, milliseconds)
+          - name: q3
+            description: time of the third qualifying session in the format "m:ss.sss" (minutes, seconds, milliseconds)
+
+      - name: results
+        description: This table contains the results of the drivers in GP races.
+        columns:
+          - name: result_id
+            description: unique identifier for the result
+          - name: race_id
+            description: unique identifier for the race
+          - name: driver_id
+            description: unique identifier for the driver
+          - name: constructor_id
+            description: unique identifier for the constructor
+          - name: number
+            description: driver's number for the current season (null for 1961-1963)
+          - name: grid
+            description: starting grid position of the driver.
+          - name: position
+            description: >
+              Official finishing position of the driver. 
+              Standard integer format. 
+              Contains NULL for drivers who did not finish (DNF) or were not classified, 
+              unless they completed >90% of the race distance (depending on the era).
+          - name: position_text
+            description: >
+              String representation of the finishing status. 
+              Provides context for NULL values in the 'position' column.
+              Common codes include:
+              - 'R': Retired (Mechanical failure, accident)
+              - 'D': Disqualified
+              - 'N': Not Classified
+              - 'W': Withdrawn
+              - 'F': Failed to qualify
+              - Numbers (e.g., '11'): Classified despite not finishing (90% rule).
+          - name: position_order
+            description: >
+              A calculated ranking (1 to N) that ensures every driver has a unique, non-null position.
+              Used for consistent sorting and visualizations. 
+              For non-finishers, the order is typically determined by the number of laps completed.- name: position
+          - name: points
+            description: points scored by the driver in the given race
+          - name: laps
+            description: number of laps completed by the driver in the given race
+          - name: time
+            description: total race time for the driver in the format "h:mm:ss.sss" (hours, minutes, seconds, milliseconds) (null for non-finishers)
+          - name: milliseconds
+            description: total race time for the driver in milliseconds (null for non-finishers)
+          - name: fastest_lap
+            description: fastest lap number for the driver (null for non-participants)
+          - name: rank
+            description: rank of the driver's fastest lap in the given race
+          - name: fastest_lap_time
+            description: time of the driver's fastest lap in the format "m:ss.sss" (minutes, seconds, milliseconds) (null for non-finishers)
+          - name: fastest_lap_speed
+            description: speed of the driver's fastest lap in km/h (null for non-finishers)
+          - name: status_id
+            description: unique identifier for the status of the result (e.g. Finished, Disqualified, Accident, etc)
+
+      - name: sprint_results
+        description: This table contains the results of the drivers in sprint races.
+        columns:
+          - name: result_id
+            description: unique identifier for the result
+          - name: race_id
+            description: unique identifier for the race
+          - name: driver_id
+            description: unique identifier for the driver
+          - name: constructor_id
+            description: unique identifier for the constructor
+          - name: number
+            description: driver's number for the current season (not null)
+          - name: grid
+            description: starting grid position of the driver (not null)
+          - name: position
+            description: >
+              Official finishing position of the driver. 
+              Standard integer format. 
+              Contains NULL for drivers who did not finish (DNF) or were not classified, 
+              unless they completed >90%
+          - name: position_text
+            description: >
+              String representation of the finishing status. 
+              Provides context for NULL values in the 'position' column.
+              Common codes include:
+              - 'R': Retired (Mechanical failure, accident)
+              - 'D': Disqualified
+              - 'N': Not Classified
+              - 'W': Withdrawn
+              - 'F': Failed to qualify
+              - Numbers (e.g., '11'): Classified despite not finishing (90% rule).
+          - name: position_order
+            description: >
+              A calculated ranking (1 to N) that ensures every driver has a unique, non-null position.
+              Used for consistent sorting and visualizations. 
+              For non-finishers, the order is typically determined by the number of laps completed.
+          - name: points
+            description: points scored by the driver in the given sprint race.
+          - name: laps
+            description: number of laps completed by the driver in the given sprint race.
+          - name: time
+            description: > 
+              Total sprint race time for the first driver in the format "h:mm:ss.sss" (hours, minutes, seconds, milliseconds)
+              for the other drivers it is an offset from the first driver's time in the format "+mm:ss.sss" and null for non-finishers
+          - name: milliseconds
+            description: total sprint race time for the driver in milliseconds (null for non-finishers)
+          - name: fastest_lap
+            description: fastest lap number for the driver in the given sprint
+          - name: fastest_lap_time
+            description: time of the driver's fastest lap in the format "m:ss.sss" (minutes, seconds, milliseconds) (null for non-finishers)
+          - name: status_id
+            description: unique identifier for the status of the result (e.g. Finished, Disqualified, Accident, etc)
+
+      - name: status
+        columns:
+          - name: status_id
+            description: unique identifier for the status of the result. 
+          - name: status
+            description: description of the status (e.g. Finished, Disqualified, Accident, etc)

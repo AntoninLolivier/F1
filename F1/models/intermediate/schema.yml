@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: int_F1__constructor_performances_aggregated
+    description: >
+      Modèle intermédiaire agrégeant les statistiques de performance de chaque écurie (constructeur) 
+      de Formule 1 sur l'ensemble de son histoire. Contient les records de points, de victoires et les titres mondiaux.
+    columns:
+      - name: constructor_id
+        description: Identifiant technique unique de l'écurie de Formule 1.
+        tests:
+          - unique
+          - not_null
+      - name: constructor_name
+        description: Nom officiel de l'écurie ou du constructeur (par exemple Mercedes, Ferrari, Red Bull).
+      - name: record_points_single_season
+        description: Le nombre maximum de points marqués par cette écurie sur une seule et même saison de Formule 1.
+      - name: total_points_career
+        description: Le nombre total de points cumulés par cette écurie tout au long de son existence en Formule 1.
+      - name: best_championship_position_ever
+        description: >
+          La meilleure position jamais atteinte par l'écurie au classement du championnat du monde des constructeurs. 
+          Une valeur de 1 signifie que l'écurie a été championne du monde.
+      - name: record_wins_single_season
+        description: Le nombre maximum de courses gagnées (victoires) par cette écurie au cours d'une seule saison.
+      - name: total_championships_titles
+        description: Le nombre total de titres de champion du monde des constructeurs remportés par cette écurie.
+      - name: total_seasons_on_podium
+        description: Le nombre de saisons où l'écurie a terminé dans le top 3 (sur le podium) du championnat du monde des constructeurs.
+
+  - name: int_F1__driver_performances_aggregated
+    description: >
+      Modèle intermédiaire agrégeant les statistiques de carrière de chaque pilote de Formule 1. 
+      Contient les records personnels, le total des points en carrière, les titres de champion du monde et les records de vitesse/temps.
+    columns:
+      - name: driver_id
+        description: Identifiant technique unique du pilote de Formule 1.
+        tests:
+          - unique
+          - not_null
+      - name: driver_name
+        description: Prénom et nom complet du pilote de Formule 1 (par exemple Lewis Hamilton, Max Verstappen).
+      - name: record_points_single_season
+        description: Le record absolu de points marqués par ce pilote lors d'une seule saison de championnat.
+      - name: total_points_career
+        description: La somme totale des points marqués par ce pilote sur l'intégralité de sa carrière en Formule 1.
+      - name: best_championship_position_ever
+        description: La meilleure position jamais atteinte par le pilote au classement général du championnat du monde (1 correspond à la première place).
+      - name: record_wins_single_season
+        description: Le plus grand nombre de Grands Prix remportés (victoires) par ce pilote au cours d'une seule saison.
+      - name: total_championships_titles
+        description: Le nombre total de titres de Champion du Monde des Pilotes remportés à la fin d'une saison.
+      - name: seasons_led_championship
+        description: Le nombre de saisons différentes au cours desquelles le pilote a été en tête du championnat du monde (1ère place) à un moment donné, même s'il n'a pas gagné le titre à la fin.
+      - name: total_seasons_on_podium
+        description: Le nombre de saisons où le pilote a figuré dans le top 3 du classement général à un moment de l'année.
+      - name: best_lap_time_single_season
+        description: Le temps au tour le plus rapide jamais réalisé par ce pilote en course, exprimé en millisecondes.
+      - name: best_lap_time_milliseconds_single_season
+        description: Valeur identique à best_lap_time_single_season, exprimée en millisecondes.
+      - name: best_pit_stop_duration_in_season
+        description: La durée de l'arrêt au stand (pit stop) le plus rapide jamais réalisé pour ce pilote, exprimée en millisecondes.

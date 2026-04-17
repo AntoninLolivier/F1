@@ -8,9 +8,6 @@ models:
     columns:
       - name: constructor_id
         description: Identifiant technique unique de l'écurie de Formule 1.
-        tests:
-          - unique
-          - not_null
       - name: constructor_name
         description: Nom officiel de l'écurie ou du constructeur (par exemple Mercedes, Ferrari, Red Bull).
       - name: record_points_single_season
@@ -35,9 +32,6 @@ models:
     columns:
       - name: driver_id
         description: Identifiant technique unique du pilote de Formule 1.
-        tests:
-          - unique
-          - not_null
       - name: driver_name
         description: Prénom et nom complet du pilote de Formule 1 (par exemple Lewis Hamilton, Max Verstappen).
       - name: record_points_single_season

@@ -1,0 +1,362 @@
+version: 2
+
+models:
+  - name: dim_F1__circuit
+    description: "Dimension table containing details about Formula 1 circuits, including their geographic location."
+    columns:
+      - name: circuit_id
+        description: "Primary key for the circuit."
+      - name: circuit_ref
+        description: "Internal identifier for the circuit (e.g., 'monaco')."
+      - name: name
+        description: "Full name of the grand prix circuit."
+      - name: location_geography
+        description: "Geospatial point generated from longitude, latitude, and altitude."
+      - name: location
+        description: "The city or specific area where the circuit is located."
+      - name: country
+        description: "The country where the circuit is situated."
+
+  - name: dim_F1__constructors
+    description: "Dimension table for F1 teams (constructors), including aggregated historical performance metrics."
+    columns:
+      - name: constructor_id
+        description: "Primary key for the constructor."
+      - name: constructor_ref
+        description: "Internal identifier for the constructor (e.g., 'ferrari')."
+      - name: name
+        description: "Official team name."
+      - name: nationality
+        description: "National identity of the constructor."
+      - name: record_points_single_season
+        description: "Highest number of points achieved by the team in a single season."
+      - name: total_points_career
+        description: "Cumulative points earned by the team across all seasons."
+      - name: best_championship_position_ever
+        description: "The highest ranking the team has ever achieved in the Constructors' Championship."
+      - name: record_wins_single_season
+        description: "Maximum number of race wins achieved in a single season."
+      - name: total_championships_titles
+        description: "Total number of Constructors' World Championship titles won."
+      - name: total_seasons_on_podium
+        description: "Count of seasons where the team finished in the top 3 of the championship."
+
+  - name: dim_F1__drivers
+    description: "Dimension table for F1 drivers, providing biographical information, the first year they were active in the sport, and career-wide performance aggregates."
+    columns:
+      - name: driver_id
+        description: "Unique identifier for the driver."
+      - name: driver_sk
+        description: "Surrogate key for the driver record."
+      - name: driver_ref
+        description: "Unique reference handle for the driver (usually lowercase surname)."
+      - name: driver_number
+        description: "Permanent racing number assigned to the driver."
+      - name: driver_code
+        description: "Three-letter abbreviation for the driver (e.g., HAM, VER)."
+      - name: driver_full_name
+        description: "The full name of the driver."
+      - name: date_of_birth
+        description: "The driver's date of birth."
+      - name: nationality
+        description: "The nationality of the driver."
+      - name: code
+        description: "The three-letter code representing the driver."
+      - name: number
+        description: "The permanent racing number assigned to the driver."
+      - name: driver_url
+        description: "Link to the driver's official Wikipedia page."
+      - name: first_active_year
+        description: "The earliest year the driver appears in race standings."
+      - name: driver_name
+        description: "The driver's full name as sourced from performance aggregations."
+      - name: record_points_single_season
+        description: "The highest number of points the driver has scored in a single season."
+      - name: total_points_career
+        description: "Cumulative points scored by the driver across their entire career."
+      - name: best_championship_position_ever
+        description: "The highest finishing position the driver has ever achieved in the championship standings."
+      - name: record_wins_single_season
+        description: "The maximum number of race wins the driver achieved in a single season."
+      - name: total_championships_titles
+        description: "Total number of World Driver's Championship titles won."
+      - name: seasons_led_championship
+        description: "Count of seasons where the driver reached the 1st position in the standings at any point."
+      - name: total_seasons_on_podium
+        description: "Count of seasons where the driver's best standing position was 3rd or higher."
+      - name: best_lap_time_single_season
+        description: "The fastest lap time recorded by the driver across all seasons."
+      - name: best_lap_time_milliseconds_single_season
+        description: "The fastest lap time in milliseconds recorded by the driver across all seasons."
+      - name: best_pit_stop_duration_in_season
+        description: "The fastest pit stop duration recorded for the driver across all seasons."
+
+  - name: fct_F1__constructor_results
+    description: "Results obtained by constructors in each race, including points and disqualification status."
+    columns:
+      - name: constructor_result_sk
+        description: "Surrogate key for the constructor result."
+      - name: race_id
+        description: "Foreign key to the race."
+      - name: race_name
+        description: "Name of the Grand Prix."
+      - name: year
+        description: "Year of the race."
+      - name: constructor_id
+        description: "Foreign key to the constructor."
+      - name: constructor_name
+        description: "Name of the F1 team."
+      - name: points_earned
+        description: "Points awarded to the constructor for the race."
+      - name: disqualified
+        description: "Boolean flag indicating if the constructor was disqualified."
+
+  - name: fct_F1__constructor_standings
+    description: "Historical standings of constructors after each race of a season."
+    columns:
+      - name: constructor_standing_sk
+        description: "Surrogate key for the constructor standing record."
+      - name: constructor_id
+        description: "Unique identifier for the constructor."
+      - name: constructor_name
+        description: "Official name of the constructor."
+      - name: race_id
+        description: "Unique identifier for the race."
+      - name: race_name
+        description: "Name of the Grand Prix."
+      - name: race_year
+        description: "Year of the race."
+      - name: total_points_accumulated
+        description: "Cumulative points earned by the constructor up to this race in the season."
+      - name: championship_position
+        description: "The rank of the constructor in the championship at that point in time."
+      - name: excluded
+        description: "Boolean flag indicating if the constructor was excluded from the championship standings."
+      - name: total_wins_season
+        description : "Total number of wins achieved by the constructor in the season up to that point."
+
+  - name: fct_F1__driver_results
+    description: "Detailed performance of drivers in main Grand Prix races."
+    columns:
+      - name: result_sk
+        description: "Surrogate key for the race result."
+      - name: race_id
+        description: "Foreign key to the race."
+      - name: race_name 
+        description: "Name of the Grand Prix."
+      - name: year
+        description: "Year of the race."
+      - name: driver_id
+        description: "Foreign key to the driver."
+      - name: constructor_id
+        description: "Foreign key to the constructor the driver was racing for in that event."
+      - name: driver_number
+        description: "The racing number used by the driver in that race."
+      - name: starting_grid_position
+        description: "Position on the grid at the start of the race."
+      - name: displayed_final_position
+        description: "The position shown in official results (may differ from actual finishing position due to disqualifications, etc.)."
+      - name: final_order
+        description: "The physical order in which the driver crossed the finish line (1 for first, 2 for second, etc.)."
+      - name: is_classified
+        description: "Boolean indicating if the driver was classified in the final results (finished or completed enough laps)."
+      - name: position_gain
+        description: "Difference between grid position and final position (positive means places gained)."
+      - name: do_not_finish_reason
+        description: "Decoded reason why a driver did not finish (mechanical, accident, etc.)."
+      - name: points_earned
+        description: "Points awarded to the driver for the race."
+      - name: laps_completed
+        description: "Number of laps completed by the driver in the race."
+      - name: race_time
+        description: "Total time taken to complete the race (for finishers)."
+      - name: race_time_milliseconds
+        description: "Total time taken to complete the race in milliseconds (for finishers)."
+      - name: fastest_lap_number
+        description: "The lap number on which the driver set their fastest lap time."
+      - name: fastest_lap_rank
+        description: "The rank of the driver's fastest lap during the race."
+      - name: fastest_lap_time
+        description: "The time of the driver's fastest lap during the race."
+      - name: fastest_lap_speed_kph
+        description: "The average speed in km/h during the driver's fastest lap."
+      - name: status
+        description: "Official classification status (Finished, +1 Lap, etc.)."
+
+  - name: fct_F1__driver_sprint_results
+    description: "Fact table containing detailed F1 Sprint race results per driver, joining race details and finishing statuses."
+    columns:
+      - name: sprint_result_sk
+        description: "Surrogate key for each sprint result."
+      - name: race_id
+        description: "Foreign key to the race stage."
+      - name: name
+        description: "Name of the Grand Prix."
+      - name: driver_id
+        description: "Unique identifier for the driver."
+      - name: constructor_id
+        description: "Unique identifier for the constructor."
+      - name: driver_number
+        description: "The racing number of the driver."
+      - name: starting_grid_position
+        description: "The driver's starting position on the grid."
+      - name: displayed_final_position
+        description: "The finishing position as displayed on the leaderboard."
+      - name: final_order
+        description: "The numerical final classification order."
+      - name: position_gain
+        description: "The net change in positions during the sprint for classified drivers."
+      - name: is_classified
+        description: "Boolean indicating if the driver was officially classified in the results."
+      - name: do_not_finish_reason
+        description: "Decoded reason for a DNF, processed via macro."
+      - name: points_earned
+        description: "Number of championship points awarded for the sprint."
+      - name: laps_completed
+        description: "Total number of laps completed by the driver."
+      - name: race_time
+        description: "Total race duration in string format."
+      - name: race_time_milliseconds
+        description: "Total race duration in milliseconds."
+      - name: fastest_lap_number
+        description: "The lap number in which the driver set their fastest time."
+      - name: fastest_lap_time
+        description: "The time of the driver's fastest lap."
+      - name: status
+        description: "The official finishing status (e.g., Finished, Accident, Power Unit)."
+
+  - name: fct_F1__driver_standings
+    description: "Fact table providing the championship standings for drivers after each race, including total points and wins."
+    columns:
+      - name: driver_standing_sk
+        description: "Surrogate key for the driver standing record."
+      - name: race_id
+        description: "Foreign key for the specific race."
+      - name: name
+        description: "The name of the Grand Prix."
+      - name: year
+        description: "The championship season year."
+      - name: driver_id
+        description: "Foreign key for the driver."
+      - name: driver_full_name
+        description: "The driver's full name, concatenated via macro."
+      - name: total_points_accumulated
+        description: "The total points earned by the driver up to this point in the season."
+      - name: championship_position
+        description: "The driver's rank in the championship standings."
+      - name: disqualified
+        description: "Boolean indicating if the driver was disqualified from the standings."
+      - name: total_wins_season
+        description: "The total number of races won by the driver during the season so far."
+
+  - name: fct_F1__lap_times
+    description: "Fact table containing every lap time recorded by each driver during a race, including their position at the end of each lap."
+    columns:
+      - name: lap_time_sk
+        description: "Surrogate key for each individual lap time record."
+      - name: race_id
+        description: "Foreign key linking to the specific race."
+      - name: race_name
+        description: "The official name of the Grand Prix."
+      - name: race_year
+        description: "The year the race took place."
+      - name: driver_id
+        description: "Foreign key linking to the driver."
+      - name: driver_name
+        description: "The driver's full name, concatenated via macro."
+      - name: lap_number
+        description: "The specific lap number within the race."
+      - name: driver_position
+        description: "The driver's position on the track at the completion of the lap."
+      - name: lap_time
+        description: "The recorded time for the lap in string format."
+      - name: lap_time_milliseconds
+        description: "The recorded time for the lap in milliseconds."
+
+  - name: fct_F1__pit_stops
+    description: "Fact table recording every pit stop made by drivers during a race, including the timing and duration of the stop."
+    columns:
+      - name: pit_stop_sk
+        description: "Surrogate key for each unique pit stop event."
+      - name: race_id
+        description: "Foreign key for the specific race."
+      - name: name
+        description: "The name of the Grand Prix."
+      - name: year
+        description: "The year the race occurred."
+      - name: driver_id
+        description: "Foreign key for the driver making the stop."
+      - name: driver_full_name
+        description: "The driver's full name, concatenated via macro."
+      - name: stop_number
+        description: "The sequential number of the pit stop for that driver within the race (e.g., 1st stop, 2nd stop)."
+      - name: lap_number
+        description: "The lap number during which the driver entered the pits."
+      - name: pit_stop_time
+        description: "The time of day the pit stop occurred."
+      - name: duration_milliseconds
+        description: "The total duration of the pit stop in milliseconds."
+
+  - name: fct_F1__qualifying
+    description: "Fact table containing qualifying session results, including positions and lap times across Q1, Q2, and Q3."
+    columns:
+      - name: qualify_sk
+        description: "Surrogate key for each unique qualifying record."
+      - name: race_id
+        description: "Foreign key for the specific race."
+      - name: name
+        description: "The name of the Grand Prix."
+      - name: year
+        description: "The year the race occurred."
+      - name: driver_id
+        description: "Foreign key for the driver."
+      - name: driver_full_name
+        description: "The driver's full name, concatenated via macro."
+      - name: driver_number
+        description: "The racing number assigned to the driver."
+      - name: constructor_id
+        description: "Foreign key for the constructor (team)."
+      - name: constructor_name
+        description: "The official name of the constructor."
+      - name: qualifying_position
+        description: "The final grid position secured during the qualifying session."
+      - name: q1_time
+        description: "The fastest lap time recorded in the first qualifying session (Q1)."
+      - name: q2_time
+        description: "The fastest lap time recorded in the second qualifying session (Q2)."
+      - name: q3_time
+        description: "The fastest lap time recorded in the third qualifying session (Q3)."
+
+  - name: fct_F1__races
+    description: "Fact table for F1 races, providing event schedules and circuit geographical information."
+    columns:
+      - name: race_id
+        description: "Primary key for each race event."
+      - name: year
+        description: "The year of the F1 season."
+      - name: round
+        description: "The round number within the season."
+      - name: name
+        description: "The name of the Grand Prix."
+      - name: circuit_id
+        description: "Foreign key linking to the circuit."
+      - name: circuit_name
+        description: "The name of the circuit where the race is held."
+      - name: location
+        description: "The city or locality of the circuit."
+      - name: country
+        description: "The country where the circuit is located."
+      - name: location_geography
+        description: "Geospatial point generated from longitude, latitude, and altitude via macro."
+      - name: race_date_time_utc
+        description: "The scheduled UTC date and time for the race."
+      - name: free_practice_1_date_time_utc
+        description: "The scheduled UTC date and time for Free Practice 1."
+      - name: free_practice_2_date_time_utc
+        description: "The scheduled UTC date and time for Free Practice 2."
+      - name: free_practice_3_date_time_utc
+        description: "The scheduled UTC date and time for Free Practice 3."
+      - name: qualifying_date_time_utc
+        description: "The scheduled UTC date and time for the qualifying session."
+      - name: sprint_date_time_utc
+        description: "The scheduled UTC date and time for the sprint session, if applicable."

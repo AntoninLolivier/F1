@@ -1,0 +1,117 @@
+version: 2
+models:
+  - name: fct_F1__race_result_summaries
+    description: "Summary fact table providing key highlights for each race, including the winner, fastest lap, top speed recorded, and fastest pit stop."
+    columns:
+      - name: race_id
+        description: "Primary key identifying the race."
+      - name: year
+        description: "The year the race season took place."
+      - name: race_name
+        description: "The official name of the Grand Prix."
+      - name: country
+        description: "The country where the race was held."
+      - name: winner_driver_id
+        description: "Unique identifier for the driver who won the race."
+      - name: winner_driver_name
+        description: "The full name of the race winner."
+      - name: winner_constructor_id
+        description: "Unique identifier for the constructor (team) that won the race."
+      - name: winner_constructor_name
+        description: "The name of the winning constructor."
+      - name: winner_grid_position
+        description: "The starting grid position of the race winner."
+      - name: fastest_lap_driver_id
+        description: "Unique identifier for the driver who set the fastest lap of the race."
+      - name: fastest_lap_driver_name
+        description: "The name of the driver who set the fastest lap."
+      - name: fastest_lap_time_ms
+        description: "The fastest lap time recorded during the race in milliseconds."
+      - name: max_speed_driver_id
+        description: "Unique identifier for the driver who recorded the highest speed."
+      - name: max_speed_driver_name
+        description: "The name of the driver who recorded the highest speed."
+      - name: max_speed_kph
+        description: "The maximum speed recorded during the race in kilometers per hour."
+      - name: fastest_pit_stop_driver_id
+        description: "Unique identifier for the driver whose pit crew performed the fastest stop."
+      - name: fastest_pit_stop_driver_name
+        description: "The name of the driver with the fastest pit stop."
+      - name: fastest_pit_stop_constructor_id
+        description: "Unique identifier for the constructor that performed the fastest pit stop."
+      - name: fastest_pit_stop_constructor_name
+        description: "The name of the constructor that performed the fastest pit stop."
+      - name: fastest_pit_stop_time_ms
+        description: "The duration of the fastest pit stop in milliseconds."
+
+  - name: fct_F1__season_reports
+    description: "Annual summary table providing a high-level overview of each F1 season, including championship podiums, constructor titles, and season-wide performance records."
+    columns:
+      - name: season_year
+        description: "The championship season year."
+      - name: world_constructor_champion_id
+        description: "Unique identifier for the constructor that won the World Championship title."
+      - name: world_constructor_champion_name
+        description: "The name of the constructor champion."
+      - name: world_constructor_points
+        description: "Total points accumulated by the winning constructor by the end of the season."
+      - name: first_place_driver_id
+        description: "Unique identifier for the World Driver Champion (1st place)."
+      - name: first_place_driver_name
+        description: "The name of the World Driver Champion."
+      - name: first_place_constructor_id
+        description: "The constructor the champion drove for during the final race of the season."
+      - name: first_place_points
+        description: "Total points accumulated by the driver champion."
+      - name: second_place_driver_id
+        description: "Unique identifier for the driver who finished 2nd in the championship."
+      - name: second_place_driver_name
+        description: "The name of the championship runner-up."
+      - name: second_place_constructor_id
+        description: "The constructor for the 2nd place driver during the final race."
+      - name: second_place_points
+        description: "Total points accumulated by the 2nd place driver."
+      - name: third_place_driver_id
+        description: "Unique identifier for the driver who finished 3rd in the championship."
+      - name: third_place_driver_name
+        description: "The name of the 3rd place driver."
+      - name: third_place_constructor_id
+        description: "The constructor for the 3rd place driver during the final race."
+      - name: third_place_points
+        description: "Total points accumulated by the 3rd place driver."
+      - name: driver_most_wins_id
+        description: "Unique identifier for the driver with the highest number of race wins in the season."
+      - name: max_wins_count
+        description: "The total number of race wins achieved by the driver with the most wins."
+      - name: max_speed_driver_id
+        description: "Unique identifier for the driver who recorded the highest speed of the entire season."
+      - name: season_max_speed_kph
+        description: "The highest top speed recorded during the season in kilometers per hour."
+      - name: max_speed_race_id
+        description: "The ID of the race where the season's top speed was recorded."
+      - name: max_speed_circuit_id
+        description: "The ID of the circuit where the season's top speed was recorded."
+      - name: max_speed_circuit_name
+        description: "The name of the circuit where the season's top speed was recorded."
+      - name: fastest_lap_driver_id
+        description: "Unique identifier for the driver who recorded the absolute fastest lap time of the season."
+      - name: season_fastest_lap_ms
+        description: "The fastest lap time of the season in milliseconds."
+      - name: fastest_lap_race_id
+        description: "The ID of the race where the season's fastest lap occurred."
+      - name: fastest_lap_circuit_id
+        description: "The ID of the circuit where the season's fastest lap occurred."
+      - name: fastest_lap_circuit_name
+        description: "The name of the circuit where the season's fastest lap occurred."
+      - name: fastest_pit_stop_driver_id
+        description: "Unique identifier for the driver whose pit stop was the fastest of the season."
+      - name: fastest_pit_stop_constructor_id
+        description: "Unique identifier for the constructor that performed the season's fastest pit stop."
+      - name: season_fastest_pit_stop_ms
+        description: "The duration of the fastest pit stop of the season in milliseconds."
+      - name: fastest_pit_stop_race_id
+        description: "The ID of the race where the season's fastest pit stop occurred."
+      - name: fastest_pit_stop_circuit_id
+        description: "The ID of the circuit where the season's fastest pit stop occurred."
+      - name: fastest_pit_stop_circuit_name
+        description: "The name of the circuit where the season's fastest pit stop occurred."

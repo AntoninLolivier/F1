@@ -14,7 +14,7 @@ final AS (
     SELECT
         res.result_sk,
         res.race_id,
-        r.name,
+        r.name AS race_name,
         res.driver_id,
         res.constructor_id,
         res.driver_number,

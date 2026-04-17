@@ -16,8 +16,11 @@ renamed as (
         position as displayed_final_position,
         position_order as final_order,
         position is not null as is_classified, 
-        case when TRY_TO_NUMBER(position_text) is not null
-            then '+90%'
+        case 
+            when is_classified = true 
+                then null
+            when TRY_TO_NUMBER(position_text) is not null
+                then '+90%'
             else position_text
         end as do_not_finish_reason, 
         points as points_earned,

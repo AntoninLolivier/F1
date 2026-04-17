@@ -20,6 +20,8 @@ models:
     columns: true
   F1:
     +static_analysis: strict
+    intermediate:
+      +materialized: view
     staging:
       +materialized: view
     marts:
